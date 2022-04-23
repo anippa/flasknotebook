@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for message in get_flashed_messages() %}
+        <div class="container">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              Selam {{name}} - {{message}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="container">
+        <br>
+        <h1>Tüm Yazılar</h1>
+        <hr>
+        <br>
+
+            <div class="shadow p-3 mb-5 bg-body rounded">
+                <h2>{{post.title}}</h2><br>
+                <small>Yazar: {{post.author.name}}<br>
+                {{post.date_posted}}</small><br>
+                {{post.content | safe}}<br>
+                <br>
+
+                <div class="card mb-3">
+                    <div class="row no-gutter">
+                        <div class="col-md-2">
+                            {% if post.author.profile_pic %}
+                                <img src="{{url_for('static', filename='images/' + post.author.profile_pic)}}" width="150" height="150" align="left">
+                            {% else %}
+                                <img src="{{url_for('static', filename='images/default_pic.jpg')}}" width="150" height="150" align="left">
+                            {% endif %}
+                        </div>
+                    
+                        <div class="col-md-10">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{post.author.name}}
+                                </h5>
+                                <p class="card-text">
+                                    {% if post.author.about_author %}
+                                    {{post.author.about_author}}
+                                    {% else%}
+                                    Yazar Hakkında Bilgi Bulunmamaktadır.     
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>  
+                    </div>  
+                </div>
+                <br>
+                <div class="card mb-3">
+                    <div class="row no-gutter">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    
+                                    <form action="/create_comment/{{post.id}}" method="POST">
+                                        {{form2.hidden_tag()}}
+                                        {{form2.text.label(class="form-label")}}
+                                        <input type="text" id="text" name="text" class="form-control" placeholder="Yorumunuz" />
+                                        <br>
+                                        {{form2.submit(class="btn btn btn-outline-secondary btn-sm")}}
+                                    </form>
+                                </h6>
+                            </div>
+                        </div>  
+                    </div>  
+                </div>
+                <br>
+                <div class="card mb-3">
+                    <div class="row no-gutter">
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <h6 class="card-title">
+                                    Yorumlar
+                                    <hr>   
+                                </h6>
+                                <div class="card-body">
+                                    {% for comment in post.comments %}
+                                        <small>{{comment.author.name}}<br>
+                                        {{comment.date_created}}</small><br>
+                                        {{comment.text | safe}}<br>
+                                        <br>
+                                        {% if current_user.id == comment.author.id %}
+                                            <a href="/deletecomment/{{comment.id}}" class="btn btn-outline-danger btn-sm">Yorumu Sil</a>
+                                        {% endif %}
+                                        <br>
+                                        <hr>
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>  
+                    </div>  
+                </div>
+                <a href="{{url_for('wall')}}" class="btn btn-outline-secondary btn-sm">Önceki Sayfa</a>
+                <a href="{{url_for('editessay',id=post.id)}}" class="btn btn-outline-secondary btn-sm">Yazıyı Güncelle</a>
+            </div>
+
+    </div>
+{% endblock %}

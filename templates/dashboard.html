@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for message in get_flashed_messages() %}
+        <div class="container">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              Selam {{name}} - {{message}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="container">
+        <br>
+        <h2>Profil</h2>
+        <hr>
+        <br>
+        <div class="card">
+          <div class="card-header">
+            {{current_user.username}}
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              <div class="container">
+                <div class="row">
+                    <div class="col-8">
+                        <strong>İsim Soyisim:</strong> {{current_user.name}}<br>
+                        <strong>Kullanıcı Adı:</strong> {{current_user.username}}<br>
+                        <strong>Kullanıcı Id:</strong> {{current_user.id}}<br>
+                        <strong>Email:</strong> {{current_user.email}}<br>
+                        <strong>Hakkınızda:</strong> {{current_user.about_author}}<br>
+                        <strong>Profil Fotusu:</strong> {{current_user.profile_pic}}<br>
+                        <strong>Kayıt Günü:</strong> {{current_user.date_added}}<br>
+                        </p>
+                        <br>
+                        <br>
+                        <a href="{{url_for('logout')}}" class="btn btn-secondary btn-sm">Çıkış</a>
+                        <a href="{{url_for('update',id=current_user.id)}}"class="btn btn-secondary btn-sm">Profil Güncelle</a>
+                        <a href="{{url_for('delete',id=current_user.id)}}"class="btn btn-danger btn-sm">Sil</a>
+                    </div>
+                    <div class="col-4">
+                        {% if current_user.profile_pic %}
+                            <img src="{{url_for('static', filename='images/' + current_user.profile_pic)}}" align="right" width="200" height="200">
+                        {% else %}
+                            <img src="{{url_for('static', filename='images/default_pic.jpg')}}" align="right">
+                        {% endif %}
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+        <br>
+        <h2>Yazılarınız</h2>
+        <hr>
+            <table class="table table-striped table-hover">
+                <tbody>
+                    <tr>
+                        {% for post in posts %}  
+                            {% if post.author.id == current_user.id %}
+                            <h3>{{post.title}}</h3> - <small>Yazar: {{post.author.name}} - {{post.date_posted}}</small><br> <a href="{{url_for('viewessay',id=post.id)}}" class="btn btn-outline-secondary btn-sm">Görüntüle</a> <a href="{{url_for('editessay',id=post.id)}}" class="btn btn-outline-secondary btn-sm">Güncelle</a> <a href="{{url_for('deleteessay',id=post.id)}}" class="btn btn-outline-danger btn-sm">Sil</a>
+                            {% endif %}  
+                            <br>  
+                        {% endfor %}
+
+                    </tr>
+                </tbody>            
+            </table>                
+
+    </div>    
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for message in get_flashed_messages() %}
+        <div class="container">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              Selam {{name}} - {{message}}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="container">
+        <br>
+        <h1>Tüm Yazılar</h1>
+        <hr>
+        <br>
+        {% for post in posts %}
+            <div class="shadow p-3 mb-5 bg-body rounded">
+                <h2>{{post.title}}</h2><br>
+                <small>Yazar: {{post.author.name}}<br>
+                {{post.date_posted}}</small><br>
+                {{post.content |truncate(200) | safe}}<br>
+                <br>
+                <a href="{{url_for('viewessay',id=post.id)}}" class="btn btn-outline-secondary btn-sm">Görüntüle</a>
+                {% if post.author.id == current_user.id %}
+                <a href="{{url_for('editessay',id=post.id)}}" class="btn btn-outline-secondary btn-sm">Güncelle</a>
+                <a href="{{url_for('deleteessay',id=post.id)}}" class="btn btn-outline-danger btn-sm">Sil</a>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

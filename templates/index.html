@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+	{% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Selam {{name}} - {{message}}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+  {% endfor %}
+  <div class="container">
+    <br>
+    <h1 align="center">Defter'e Hoşgeldiniz!</h1>
+    <br>
+    <h3 align="center">Yeni Hikaye Platformu</h3>
+    <br>
+    <hr>
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Okumaya Başlayın!</h5>
+          <p class="card-text">Tüm Hikayeleri Görmek için Aşağıya Tıklayın</p>
+          <a href="{{url_for('wall')}}" class="btn btn-outline-secondary btn-sm">Oku</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Yazmaya Başla</h5>
+          <p class="card-text">Yazar Olmak için Aşağıya Tıklayın ve Kayıt Olun</p>
+          <a href="{{url_for('register')}}" class="btn btn-outline-secondary btn-sm">Yaz</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <br>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <br>
+        <h2> Yönetici Sayfası </h2>
+        <hr>
+        <br>
+        <h3>Kayıtlı Kullanıcılar</h3>
+        <hr>
+        {% for registered_user in registered_users %}
+            <strong>İsim Soyisim:</strong> {{registered_user.name}}<br>
+            <strong>Kullanıcı Adı:</strong> {{registered_user.username}}<br>
+            <strong>Kullanıcı Id:</strong> {{registered_user.id}}<br>
+            <strong>Email:</strong> {{registered_user.email}}<br>
+            <strong>Hakkında:</strong> {{registered_user.about_author}}<br>
+            <strong>Kayıt Günü:</strong> {{registered_user.date_added}}<br>
+            <br>
+            <a href="{{url_for('delete',id=registered_user.id)}}" class="btn btn-outline-danger btn-sm">Delete</a>
+            <br>
+            <hr>
+            <br>
+        {% endfor %}  
+    </div>  
+{% endblock %}
